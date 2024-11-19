@@ -13,6 +13,14 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 	return &UserRepository{db: db}
 }
 
+func (r *UserRepository) FindUsers() ([]models.User, error) {
+	var users []models.User
+
+	result := r.db.Find(&users)
+
+	return users, result.Error
+}
+
 func (r *UserRepository) FindById(id int) (*models.User, error) {
 	var user models.User
 

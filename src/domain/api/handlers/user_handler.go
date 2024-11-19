@@ -17,6 +17,15 @@ func NewUserHandler(service *services.UserService) *UserHandler {
 	return &UserHandler{userService: service}
 }
 
+func (h *UserHandler) GetUsers(c *gin.Context) {
+	users, err := h.userService.GetUsers()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
+	c.JSON(http.StatusOK, users)
+}
+
 func (h *UserHandler) GetUserById(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -37,7 +46,7 @@ func (h *UserHandler) GetUserByEmail(c *gin.Context) {
 
 	user, err := h.userService.GetUserByEmail(email)
 	if err != nil {
-    fmt.Println(err)
+		fmt.Println(err)
 		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
 		return
 	}

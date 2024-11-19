@@ -14,6 +14,22 @@ Better than your average payment split app
     - `database`: define database object (postgres/nosql/mysql etc.)
     - `repositories`: abstract out the database logic here
 
+### Service interaction
+
+```
+[HTTP Client]
+      ↓
+[Router] - Maps HTTP routes to handlers
+      ↓
+[Handlers] - HTTP-specific tasks
+      ↓
+[Services] - Business logic and data orchestration
+      ↓
+[Repositories] - Database access
+      ↓
+[Database]
+```
+
 # Running the program
 
 1. Ensure postgres is up and running

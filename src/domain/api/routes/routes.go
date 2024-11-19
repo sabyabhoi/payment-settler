@@ -23,6 +23,7 @@ func (r *Router) SetupRoutes() *gin.Engine {
 
 	api := router.Group("/users")
 	{
+    api.GET("/", r.userHandler.GetUsers)
 		api.GET("/:id", r.userHandler.GetUserById)
 		api.GET("/email/:email", r.userHandler.GetUserByEmail)
 	}
