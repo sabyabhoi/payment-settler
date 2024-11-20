@@ -44,3 +44,15 @@ func (r *UserRepository) FindGroups(user *models.User) ([]models.Group, error) {
 
 	return groups, err
 }
+
+func (r *UserRepository) CreateUser(user *models.User) (uint, error) {
+	result := r.db.Create(user)
+
+	return user.ID, result.Error
+}
+
+func (r *UserRepository) DeleteUser(uid uint) error {
+	result := r.db.Delete(&models.User{}, uid)
+
+	return result.Error
+}

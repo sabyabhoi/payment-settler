@@ -26,6 +26,10 @@ func (r *Router) SetupRoutes() *gin.Engine {
     api.GET("/", r.userHandler.GetUsers)
 		api.GET("/:id", r.userHandler.GetUserById)
 		api.GET("/email/:email", r.userHandler.GetUserByEmail)
+
+    api.POST("/", r.userHandler.CreateUser)
+
+    api.DELETE("/:id", r.userHandler.DeleteUser)
 	}
 
 	return router

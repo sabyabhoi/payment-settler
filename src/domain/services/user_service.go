@@ -14,7 +14,7 @@ func NewUserService(repo *repositories.UserRepository) *UserService {
 }
 
 func (s *UserService) GetUsers() ([]models.User, error) {
-  return s.repo.FindUsers()
+	return s.repo.FindUsers()
 }
 
 func (s *UserService) GetUserById(id int) (*models.User, error) {
@@ -35,4 +35,12 @@ func (s *UserService) GetGroupsById(id int) ([]models.Group, error) {
 		return nil, err
 	}
 	return s.repo.FindGroups(u)
+}
+
+func (s *UserService) CreateUser(user *models.User) (uint, error) {
+	return s.repo.CreateUser(user)
+}
+
+func (s *UserService) DeleteUser(uid uint) error {
+	return s.repo.DeleteUser(uid)
 }
