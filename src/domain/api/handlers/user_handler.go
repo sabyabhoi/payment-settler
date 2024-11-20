@@ -74,6 +74,23 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 	})
 }
 
+func (h *UserHandler) UpdateUser(c *gin.Context) {
+	var user models.User
+
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	userResponse, err := h.userService.UpdateUser(&user)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, userResponse)
+}
+
 func (h *UserHandler) DeleteUser(c *gin.Context) {
 	uid, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

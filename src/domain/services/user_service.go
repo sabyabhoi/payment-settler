@@ -41,6 +41,10 @@ func (s *UserService) CreateUser(user *models.User) (uint, error) {
 	return s.repo.CreateUser(user)
 }
 
+func (s *UserService) UpdateUser(user *models.User) (*models.User, error) {
+	return s.repo.UpdateUser(user)
+}
+
 func (s *UserService) DeleteUser(uid uint) error {
 	return s.repo.DeleteUser(uid)
 }

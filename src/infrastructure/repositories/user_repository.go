@@ -51,6 +51,16 @@ func (r *UserRepository) CreateUser(user *models.User) (uint, error) {
 	return user.ID, result.Error
 }
 
+func (r *UserRepository) UpdateUser(user *models.User) (*models.User, error) {
+	result := r.db.First(user, user.ID)
+	if result.Error != nil {
+		return user, result.Error
+	}
+
+	result = r.db.Save(user)
+	return user, result.Error
+}
+
 func (r *UserRepository) DeleteUser(uid uint) error {
 	result := r.db.Delete(&models.User{}, uid)
 
