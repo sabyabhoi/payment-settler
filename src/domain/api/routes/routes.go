@@ -6,12 +6,17 @@ import (
 )
 
 type Router struct {
-	userHandler  *handlers.UserHandler
-	groupHandler *handlers.GroupHandler
+	userHandler        *handlers.UserHandler
+	groupHandler       *handlers.GroupHandler
+	transactionHandler *handlers.TransactionHandler
 }
 
-func NewRouter(userHandler *handlers.UserHandler, groupHandler *handlers.GroupHandler) *Router {
-	return &Router{userHandler, groupHandler}
+func NewRouter(
+	userHandler *handlers.UserHandler,
+	groupHandler *handlers.GroupHandler,
+	transactionHandler *handlers.TransactionHandler,
+) *Router {
+	return &Router{userHandler, groupHandler, transactionHandler}
 }
 
 func (r *Router) SetupRoutes() *gin.Engine {

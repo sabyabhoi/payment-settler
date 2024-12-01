@@ -27,15 +27,17 @@ func main() {
 
 	userRepo := repositories.NewUserRepository(db)
 	groupRepo := repositories.NewGroupRepository(db)
+  transactionRepo := repositories.NewTransactionRepository(db)
 
 	userService := services.NewUserService(userRepo)
 	groupService := services.NewGroupService(groupRepo)
-
+	transactionService := services.NewTransactionService(transactionRepo)
 
 	userHandler := handlers.NewUserHandler(userService, groupService)
   groupHandler := handlers.NewGroupHandler(groupService)
+  transactionHandler := handlers.NewTransactionHandler(transactionService)
 
-	router := routes.NewRouter(userHandler, groupHandler)
+	router := routes.NewRouter(userHandler, groupHandler, transactionHandler)
 
 	r := router.SetupRoutes()
 
