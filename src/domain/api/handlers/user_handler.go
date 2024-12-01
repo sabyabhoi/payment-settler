@@ -65,7 +65,7 @@ func (h *UserHandler) GetAllGroupsForUserId(c *gin.Context) {
 
   groups, err := h.userService.GetAllGroupsForUserId(uid)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to fetch groups for user"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error":err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, groups)

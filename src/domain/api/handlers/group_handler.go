@@ -26,6 +26,21 @@ func (h *GroupHandler) GetAllGroups(c *gin.Context) {
 	c.JSON(http.StatusOK, groups)
 }
 
+func (h *GroupHandler) GetAllUsersInGroup(c *gin.Context) {
+	groupId, err := strconv.Atoi(c.Query("groupId"))
+  if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid group ID provided"})
+		return
+  }
+
+  users, err := h.groupService.GetAllUsersInGroup(groupId)
+  if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+  }
+  c.JSON(http.StatusOK, users)
+}
+
 func (h *GroupHandler) GetGroupById(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

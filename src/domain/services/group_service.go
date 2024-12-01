@@ -17,6 +17,16 @@ func (s *GroupService) GetAllGroups() ([]models.Group, error) {
 	return s.repo.FindAllGroups()
 }
 
+func (s *GroupService) GetAllUsersInGroup(groupId int) ([]models.User, error) {
+  group, err := s.GetGroupById(groupId)
+  if err != nil {
+    return nil, err
+  }
+
+	return s.repo.FindAllUsersInGroup(group)
+}
+
+
 func (s *GroupService) GetGroupById(id int) (*models.Group, error) {
 	return s.repo.FindById(id)
 }

@@ -32,7 +32,7 @@ func (r *GroupRepository) FindById(id int) (*models.Group, error) {
 func (r *GroupRepository) FindAllUsersInGroup(group *models.Group) ([]models.User, error) {
 	var users []models.User
 
-	err := r.db.Model(&group).Association("users").Find(&users)
+	err := r.db.Model(&group).Association("Users").Find(&users)
 
 	return users, err
 }

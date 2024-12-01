@@ -37,6 +37,7 @@ func (r *Router) SetupRoutes() *gin.Engine {
 	{
 		groupApi.GET("/", r.groupHandler.GetAllGroups)
 		groupApi.GET("/:id", r.groupHandler.GetGroupById)
+		groupApi.GET("/user", r.groupHandler.GetAllUsersInGroup)
 
 		groupApi.POST("/", r.groupHandler.CreateGroup)
 	}
