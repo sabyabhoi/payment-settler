@@ -6,13 +6,12 @@ import (
 )
 
 type Router struct {
-	userHandler *handlers.UserHandler
-	// authHandler  *handlers.AuthHandler
-	// authMiddleware *middlewares.AuthMiddleware
+	userHandler  *handlers.UserHandler
+	groupHandler *handlers.GroupHandler
 }
 
-func NewRouter(userHandler *handlers.UserHandler) *Router {
-	return &Router{userHandler}
+func NewRouter(userHandler *handlers.UserHandler, groupHandler *handlers.GroupHandler) *Router {
+	return &Router{userHandler, groupHandler}
 }
 
 func (r *Router) SetupRoutes() *gin.Engine {
@@ -21,15 +20,25 @@ func (r *Router) SetupRoutes() *gin.Engine {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
-	api := router.Group("/users")
+	userApi := router.Group("/users")
 	{
-    api.GET("/", r.userHandler.GetUsers)
-		api.GET("/:id", r.userHandler.GetUserById)
-		api.GET("/email/:email", r.userHandler.GetUserByEmail)
+		userApi.GET("/", r.userHandler.GetAllUsers)
+		userApi.GET("/:id", r.userHandler.GetUserById)
+		userApi.GET("/group", r.userHandler.GetAllGroupsForUserId)
+		userApi.GET("/email/:email", r.userHandler.GetUserByEmail)
 
-    api.POST("/", r.userHandler.CreateUser)
+		userApi.POST("/", r.userHandler.CreateUser)
+		userApi.POST("/group", r.userHandler.AddGroupToUser)
 
-    api.DELETE("/:id", r.userHandler.DeleteUser)
+		userApi.DELETE("/:id", r.userHandler.DeleteUser)
+	}
+
+	groupApi := router.Group("/groups")
+	{
+		groupApi.GET("/", r.groupHandler.GetAllGroups)
+		groupApi.GET("/:id", r.groupHandler.GetGroupById)
+
+		groupApi.POST("/", r.groupHandler.CreateGroup)
 	}
 
 	return router

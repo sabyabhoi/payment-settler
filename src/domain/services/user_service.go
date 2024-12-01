@@ -13,8 +13,8 @@ func NewUserService(repo *repositories.UserRepository) *UserService {
 	return &UserService{repo: *repo}
 }
 
-func (s *UserService) GetUsers() ([]models.User, error) {
-	return s.repo.FindUsers()
+func (s *UserService) GetAllUsers() ([]models.User, error) {
+	return s.repo.FindAllUsers()
 }
 
 func (s *UserService) GetUserById(id int) (*models.User, error) {
@@ -25,20 +25,20 @@ func (s *UserService) GetUserByEmail(email string) (*models.User, error) {
 	return s.repo.FindByEmail(email)
 }
 
-func (s *UserService) GetGroups(user *models.User) ([]models.Group, error) {
-	return s.repo.FindGroups(user)
-}
-
-func (s *UserService) GetGroupsById(id int) ([]models.Group, error) {
+func (s *UserService) GetAllGroupsForUserId(id int) ([]models.Group, error) {
 	u, err := s.GetUserById(id)
 	if err != nil {
 		return nil, err
 	}
-	return s.repo.FindGroups(u)
+	return s.repo.FindAllGroupsForUser(u)
 }
 
 func (s *UserService) CreateUser(user *models.User) (uint, error) {
 	return s.repo.CreateUser(user)
+}
+
+func (s *UserService) AddGroupToUser(user *models.User, group *models.Group) error {
+	return s.repo.AddGroupToUser(user, group)
 }
 
 func (s *UserService) UpdateUser(user *models.User) (*models.User, error) {

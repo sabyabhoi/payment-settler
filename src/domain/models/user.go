@@ -2,8 +2,6 @@ package models
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type User struct {
@@ -13,12 +11,4 @@ type User struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	Groups    []Group `gorm:"many2many:user_groups"`
-}
-
-func (u User) getAllGroups(db *gorm.DB) []Group {
-	var groups []Group
-
-	db.Model(&u).Association("Groups").Find(&groups)
-
-	return groups
 }

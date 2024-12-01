@@ -13,7 +13,7 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 	return &UserRepository{db: db}
 }
 
-func (r *UserRepository) FindUsers() ([]models.User, error) {
+func (r *UserRepository) FindAllUsers() ([]models.User, error) {
 	var users []models.User
 
 	result := r.db.Find(&users)
@@ -37,7 +37,7 @@ func (r *UserRepository) FindByEmail(email string) (*models.User, error) {
 	return &user, result.Error
 }
 
-func (r *UserRepository) FindGroups(user *models.User) ([]models.Group, error) {
+func (r *UserRepository) FindAllGroupsForUser(user *models.User) ([]models.Group, error) {
 	var groups []models.Group
 
 	err := r.db.Model(&user).Association("Groups").Find(&groups)
@@ -49,6 +49,11 @@ func (r *UserRepository) CreateUser(user *models.User) (uint, error) {
 	result := r.db.Create(user)
 
 	return user.ID, result.Error
+}
+
+func (r *UserRepository) AddGroupToUser(user *models.User, group *models.Group) error {
+	err := r.db.Model(user).Association("Groups").Append(group)
+	return err
 }
 
 func (r *UserRepository) UpdateUser(user *models.User) (*models.User, error) {
